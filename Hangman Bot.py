@@ -57,16 +57,16 @@ def hangman(count):
  |
  |
 =========''', '''
-          +-----+
- |         |
- |        O  ~('you should think of your next) 
- |       /|\  (two steps very carefully'  -_-  )
++-----+
+ |         |     ('you should think of your next )
+ |        O  ~( two steps very carefully'  -_-  ) 
+ |       /|\ 
  |
  |
 =========''', '''
           +-----+
  |         |
- |        O  ~('I don't feel so good' O_o) 
+ |        O  ~('I don't feel so good' O_o ) 
  |       /|\ 
  |       /
  |
