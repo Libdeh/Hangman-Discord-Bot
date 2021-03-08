@@ -123,7 +123,7 @@ async def on_message(message):
             return
 
         else:
-            await message.channel.send("Try sticking with *letter* guesses")
+            await message.channel.send("Nope. Try sticking with *letter* guesses.")
 
     if message.content.startswith('$p') and len(message.content) == 4:  # letter guess only
         guess = message.content
