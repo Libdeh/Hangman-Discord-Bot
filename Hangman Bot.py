@@ -67,7 +67,7 @@ def hangman(count):
           +-----+
  |         |
  |        O  ~('I don't feel so good' O_o) 
- |       /|\  
+ |       /|\ 
  |       /
  |
 =========''', '''
