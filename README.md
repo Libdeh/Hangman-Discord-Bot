@@ -1,2 +1,2 @@
 # Hangman-Discord-Bot
-A Discord bot that lets members play Hangman 
+A Discord bot that let's users play Hangman
