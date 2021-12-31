@@ -1,5 +1,5 @@
 # The Pigeon: A Discord Bot
-### Video Demo:  <URL HERE>
+### Video Demo:  <https://youtu.be/7qNlwwDoB_c>
 ### Description:
 
 A website and Discord bot that let's users play Hangman solo or with friends!
