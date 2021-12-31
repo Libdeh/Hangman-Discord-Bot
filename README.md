@@ -34,8 +34,6 @@ The correct and incorrectly guessed letters are presented to the user lowercased
 The dialogue and visuals from the _HANGMANPICS_ and 'The Pigeon' add a fun component to the game and hint to competitive behaviour to keep the user engaged and playing. 
 Similarily, a website was designed to attract users to play.
  
- 
- 
 ***Website:***
  HTML and CSS were used to create a static webpage that directs users to inviting 'The Pigeon' Discord bot to their servers.
   - HTML (website.html)
