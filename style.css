@@ -1,0 +1,67 @@
+body
+{
+    background-color: powderblue;
+    text-align: center;
+    padding: 10px;
+}
+header
+{
+    padding: 2px;
+    background-color: rgb(243, 241, 225);
+}
+h1
+{
+    font-family: "Courier New", "Courier New", monospace;
+    font-size: 48px;
+    font-style: italic;
+    color: rgb(1, 28, 41);
+    width: 100%;
+}
+.right
+{
+    float: right;
+    margin: 10px 0 0 25px;
+    image-rendering: optimizeQuality;
+}
+.title
+{
+    text-align: left;
+    font-family: "Lucida Console", "Courier New", monospace;
+    font-size: 36px;
+    margin-bottom: -5px;
+}
+.description
+{
+    text-align: left;
+    font-family: Helvetica, Helvetica, sans-serif;
+    line-height: 1.6;
+    font-size: 20px;
+    list-style-type: circle;
+}
+.space
+{
+    margin: 65px 0 0 0;
+}
+a
+{
+    border-style: solid;
+    border-color: rgb(1, 28, 41);
+    background-color: rgba(255, 235, 205, 0.733);
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    font-family: "Lucida Console", "Courier New", monospace;
+    font-size: 24px;
+    color: rgb(1, 28, 41);
+    text-decoration: none;
+    text-transform: uppercase;
+}
+.left
+{
+    float: left;
+}
+footer
+{
+    margin: 35px 0 0 0;
+}
+
