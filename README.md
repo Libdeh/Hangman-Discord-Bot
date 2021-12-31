@@ -13,8 +13,20 @@ Python was used to program a Discord bot that adds a gaming feature to a Discord
  - Python (Hangman_Bot.py)
     - Frameworks and libraries: Discord, OS, dotenv, random
 
- A dictionary of [10,000 words](https://www.mit.edu/~ecprice/wordlist.10000) was selected for the Hangman game as to have enough randomly-generated, common words where the game is always new and interesting for the user and to minimize heavy data usage. Sending **'$play'** in messages notifies the bot that a new game of Hangman is being requested and will thus randomly select a word and set the game stats to new game defaults. Since updating the blanks for the 'guessing' word is a crucial step repeatedly done throughout the game, the process is all done in the function _blanks(word, letters=[ ])_. _blanks(word, letters=[ ])_ determines the placement of '_' and correctly-guessed letters (if any) and returns the string to be sent by the **'$p'** for the next play. 
+***How it Works:*** 
  
+A dictionary of [10,000 words](https://www.mit.edu/~ecprice/wordlist.10000) was selected for the Hangman game as to have enough randomly generated, common words where the game is always new and interesting for the user and to minimize heavy data usage. Sending **'$play'** in messages notifies the bot that a new game of Hangman is being requested and will thus randomly select a word and set the game stats to new game defaults. Since updating the blanks for the 'guessing' word is a crucial step repeatedly done throughout the game, the process is all done in the function _blanks(word, letters=[ ])_. _blanks(word, letters=[ ])_ determines the placement of '_' and correctly guessed letters (if any) and returns the string to be sent by the **'$p'** for the next play. 
+ 
+***Stylistic Choices:***
+
+The _'$play'_, _'$p'_, and _'!p'_ were chosen for the game commands to prevent calling the bot between guild members' conversations and were decided to be obscure enough that they would not show up in normal conversation while also maintaining the 'p for play' theme. Players are reminded of the usage of these commands at the beginning of every game, as well as in the bot description.
+
+<img align="right" src="https://user-images.githubusercontent.com/64821190/147798026-41534726-7bae-4711-8eb7-1890d8ebfc74.PNG">
+
+The correct and incorrectly guessed letters are presented to the user lowercased to improve the readability and comprehension. People are generally more accustomed to lowercase words because most dictionaries and other texts are written and read in lowercase. Hangman is all about guessing the missing letters from a word so the user should have the competitive advantage of familiarity provided by lowercase. Incorrect letters are presented to the player in a comma-separated list and was done so using the _", ".join(wrong)_. This improved the readability of the incorrect letters compared to simply sending the str(wrong).
+ 
+The dialogue and visuals from the _HANGMANPICS_ and 'The Pigeon' add a fun component to the game and hint to competitive behaviour to keep the user engaged and playing. 
+Similarily, a website was designed to attract users to play.
  
 ***Website:***
  HTML and CSS were used to create a static webpage that directs users to inviting 'The Pigeon' Discord bot to their servers.
