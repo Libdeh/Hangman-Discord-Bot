@@ -12,6 +12,8 @@ To start a new game, send **$play** in messages. A random word from a dictionary
 Python was used to program a Discord bot that adds a gaming feature to a Discord server. Users can play together or continue messaging in the server without impacting the game.
  - Python (Hangman_Bot.py)
     - Frameworks and libraries: Discord, OS, dotenv, random
+ 
+ Note: .env file with [Discord Bot Token](https://discord.com/developers/applications/) required for functioning bot.
 
 ***How it Works:*** 
  
