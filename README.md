@@ -2,7 +2,7 @@
 ### Video Demo:  <URL HERE>
 ### Description:
 
-A website and Discord bot that let's users add 'The Pigeon' bot to Discord servers and play Hangman solo or with friends!
+A website and Discord bot that let's users play Hangman solo or with friends!
 
 ***How to Play:***
 To start a new game, send **$play** in messages. A random word from a dictionary of [10,000 words](https://www.mit.edu/~ecprice/wordlist.10000) will be chosen and sent as blanks by the bot, as well as instructions on how to play. To guess a single letter, use the **$p** command. To guess the full word, use the **!p** command. After 6 wrong guesses, you lose the game. Good luck!
