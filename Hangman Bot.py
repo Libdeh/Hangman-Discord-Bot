@@ -1,30 +1,35 @@
+# get token from environment
+import os  
+from dotenv import load_dotenv
+
 import discord
 import random
 
-# FILES
+
+''' FILES '''
 # Get words from dictionary txt file
-dictionaryFile = open("wordlist.txt", "r")
+dictionaryFile = open("wordlist.txt", "r")  # 10,000 word dictionary credit: https://www.mit.edu/~ecprice/wordlist.10000
 dictionary = dictionaryFile.read()
 wordsList = dictionary.split()  # .split() makes a string into a list of words
 
-# FUNCTIONS
 
+''' FUNCTIONS '''
 # Returns the string of blanks for the length of the word
-# If provided a correct char guess, will update blanks
+# If provided a correct letter guess, will update blanks
 def blanks(word, letters = []):
     update = ''
-    n = len(word)
     if letters == []:
-        update = '**-** ' * n  # ** ** bolds message in discord
+        update = '**_** ' * len(word)  # ** ** bolds message in discord
         return update
     else:
-        for i in range(0, n):
-            for j in range(0, len(letters)):
-                if word[i] == letters[j]:
-                    update += '**' + letters[j] + '** '
-            if word[i] not in letters:
-                update += '**-** '
+        for character in word:
+            for letter in letters:
+                if character == letter:
+                    update += '**' + letter + '** '
+            if character not in letters:
+                update += '**_** '
         return update
+
 
 # Returns pictures of the Hangman for each 6 wrong guesses
 def hangman(count):
@@ -45,7 +50,7 @@ def hangman(count):
 =========''', '''
           +-----+
  |         |
- |        O  ~('I am fine...right?')
+ |        O  ~('I'll be fine...right?')
  |         |
  |
  |
@@ -57,23 +62,23 @@ def hangman(count):
  |
  |
 =========''', '''
-+-----+
- |         |     ('you should think of your next )
- |        O  ~( two steps very carefully'  -_-  ) 
- |       /|\ 
+          +-----+
+ |         |
+ |        O  ~('you should think of your next) 
+ |       /|\  (two steps very carefully' -_- )
  |
  |
 =========''', '''
           +-----+
  |         |
- |        O  ~('I don't feel so good' O_o ) 
+ |        O  ~('I don't feel so good' O_o) 
  |       /|\ 
  |       /
  |
 =========''', '''
           +-----+
  |         |
- |        O  ~('...should've gone for the head...')
+ |        O  ~('...aw man...')
  |       /|\                *dies*
  |       / \ 
  |
@@ -81,60 +86,64 @@ def hangman(count):
     if count < 7:
         return HANGMANPICS[count]
 
-# MAIN #
+
+''' MAIN '''
 client = discord.Client()
 
 @client.event
 async def on_ready():
-    print('We have logged in as {0.user}'.format(client))  # initialize the bot
+    print('We have logged in as {0.user}'.format(client))  # logging in the bot
+
+
+''' HANGMAN GAME '''
+history = False  # determine if very first game (variable remains true after first $play)
+game = False  # initialize game variable
 
 @client.event
 async def on_message(message):
-    global word, guesses, wrong, right, game, guess
-
+    global word, guesses, wrong, right, game, history, guess
+    
     if message.author == client.user:  # ignore messages from bot
         return
 
     if message.content.startswith('$play'):
+        history = True 
         # start a new game by generating new random word
         game = True
         index = random.randint(0, len(wordsList))  # location of random word
         word = wordsList[index]  # random word
-
         guesses = []  # all letters guessed by player
         wrong = []  # all incorrect guesses made by player
         right = []  # correct guesses
 
-        output = blanks(word, guesses)
-        await message.channel.send(output)
+        await message.channel.send(hangman(0) + "\n" + blanks(word, guesses))
         await message.channel.send("Send $p *letter* to guess the letter. Use !p to guess the full word. Good luck!")
 
-    if message.content.startswith('!p') and len(message.content) != 4:  # guess the whole word
-        guess = ''
-        for i in range(3, len(message.content)):  # get the message after the command
-            guess = guess + message.content[i]
+    if game:
+        # guess the whole word
+        if message.content.startswith('!p') and len(message.content) > 3:  # 3 = !p''
+            guess = ''
+            for i in range(3, len(message.content)):  # get the message after the command
+                guess = guess + message.content[i]
 
-        if guess.lower() == word:  # wins if the guess is the same as the word
-            await message.channel.send("You WIN!")
-            await message.channel.send("...this round")
-            await message.channel.send(file=discord.File('pigeon.png'))
-            await message.channel.send("$play again")
-            game = False
-            return
+            if guess.isalpha():
 
-        else:
-            if game == True:
-                await message.channel.send("Nope. Try sticking with *letter* guesses.")
-
-            else:  # prevent user from continuing old game
-                await message.channel.send("Why are you still trying??")
-                await message.channel.send("$play again")
-
-    if message.content.startswith('$p') and len(message.content) == 4:  # letter guess only
-        guess = message.content
-        guess = guess[3]  # get letter guess from message
-
-        if game == True:  # game on
+                if guess.lower() == word:  # wins if the guess is the same as the word
+                    await message.channel.send("You WIN!")
+                    await message.channel.send("...this round")
+                    await message.channel.send(file=discord.File('pigeon.png'))
+                    await message.channel.send("$play again")
+                    game = False
+                    return
+                else:
+                    await message.channel.send("Nope! Try sticking with *letter* guesses")
+            else: 
+                await message.channel.send("Alphabetic characters only!")
+        
+        # letter guess only
+        if message.content.startswith('$p') and len(message.content) == 4:
+            guess = message.content
+            guess = guess[3]  # get the letter guess from message
 
             if guess.isalpha():
                 guess = guess.lower()
@@ -147,14 +156,13 @@ async def on_message(message):
                         wrong.append(guess)
                     else:
                         right.append(guess)
-                        print(right)
 
                     await message.channel.send(hangman(len(wrong)))  # print hangman according to incorrect guesses
                     await message.channel.send(output)  # updated blanks with right guesses
                     if len(wrong) > 0:
-                        await message.channel.send('Wrong Guesses: ' + str(wrong))  # list of wrong guesses
+                        await message.channel.send('Wrong Guesses: ' + ", ".join(wrong))  # list of wrong guesses
 
-                    # End game conditions
+                    # end game conditions
                     if len(wrong) == 6 and len(right) != len(word):  # didnt guess the word within 6 guesses
                         await message.channel.send("gAmE oVeR :headstone:")
                         await message.channel.send("The word was **" + word + "**")  # send the word bolded
@@ -163,11 +171,12 @@ async def on_message(message):
                         game = False
                         return
 
+                    # check if the word was completed
                     count = 0
-                    for i in word:
-                        if i in right:
+                    for letter in word:
+                        if letter in right:
                             count += 1
-                    if count == len(word):  # check if the word was completed
+                    if count == len(word):  
                         await message.channel.send("You WIN!")
                         await message.channel.send("...this round")
                         await message.channel.send(file=discord.File('pigeon.png'))
@@ -176,16 +185,24 @@ async def on_message(message):
                         return
 
                 else:
-                    await message.channel.send("You already guessed that letter")
+                    await message.channel.send("You already guessed that letter!")
 
             else:  # user can only guess letters
-                await message.channel.send('Use letters only')
+                await message.channel.send('Single letters only!')
 
-        else:  # prevent user from continuing old game
+    # prevent user from continuing old game
+    elif not game and (message.content.startswith('!p') or message.content.startswith('$p')):
+        if not history:  # a game has not been played before
+            await message.channel.send("Send $play to start a new game of Hangman")
+        else:
             await message.channel.send("Why are you still trying??")
             await message.channel.send("$play again")
 
 
 dictionaryFile.close()
-client.run('TOKEN')
 
+''' INITIALIZING BOT'''
+# access token from environment
+load_dotenv()
+TOKEN = os.getenv('TOKEN')
+client.run(TOKEN)
